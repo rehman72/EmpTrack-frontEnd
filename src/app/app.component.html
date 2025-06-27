@@ -25,10 +25,15 @@
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input
+          #key="ngModel"
+          ngModel
           class="form-control mr-sm-2"
           type="search"
+          id="searchName"
+          name="key"
           placeholder="Search Employee"
           aria-label="Search"
+          (ngModelChange)="onsearch(key.value)"
         />
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
           Search
@@ -288,18 +293,39 @@
           </button>
         </div>
         <div class="modal-body">
-          Are you sure you want to delete Employee permenantly!
+          Are you sure you want to delete
+          {{ modalService.deleteEmploye?.name }} permenantly!
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button
+            id="closedeleteForm"
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >
             Cancel
           </button>
-          <button type="button" class="btn btn-danger">delete</button>
+          <button
+            type="button"
+            (click)="deleteEmployee(modalService.deleteEmploye?.id)"
+            class="btn btn-danger"
+          >
+            delete
+          </button>
         </div>
       </div>
     </div>
   </div>
-
   <br /><br />
   <app-employee></app-employee>
+  <!-- Notification for no Employee -->
+  <div
+    class="col-lg-12 col-md-12 col-xl-12"
+    *ngIf="employeeApi.employees?.length === 0"
+  >
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">No Employee</h4>
+      <p>No Employee were Found!</p>
+    </div>
+  </div>
 </div>

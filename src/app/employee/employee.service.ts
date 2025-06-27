@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Employee } from './employee.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 @Injectable({
@@ -8,6 +8,8 @@ import { environment } from '../../environments/environment';
 })
 export class EmployeeService {
   private apiServerUrl = environment.apiBaseUrl;
+  public employees: Employee[] | any;
+
   constructor(private http: HttpClient) {}
 
   public getEmployee(): Observable<Employee[]> {
@@ -32,5 +34,15 @@ export class EmployeeService {
     return this.http.delete<void>(
       `${this.apiServerUrl}/employee/delete/${employeeId}`
     );
+  }
+  public getEmployees(): void {
+    this.getEmployee().subscribe({
+      next: (response: Employee[]) => {
+        this.employees = response;
+      },
+      error: (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    });
   }
 }

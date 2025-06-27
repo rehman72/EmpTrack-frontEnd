@@ -13,24 +13,12 @@ import { ModalService } from './modal.service';
   styleUrl: './employee.component.css',
 })
 export class EmployeeComponent {
-  public employees: Employee[] | any;
-
   constructor(
     public employeeModal: ModalService,
     public employeeApi: EmployeeService
   ) {}
 
   ngOnInit(): void {
-    this.getEmployees();
-  }
-  public getEmployees(): void {
-    this.employeeApi.getEmployee().subscribe({
-      next: (response: Employee[]) => {
-        this.employees = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      },
-    });
+    this.employeeApi.getEmployees();
   }
 }
